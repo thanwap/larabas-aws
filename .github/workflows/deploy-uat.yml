@@ -34,7 +34,7 @@ jobs:
             --domain-name larabas.com \
             --idempotency-token=random_string_here \
             --subject-alternative-names *.larabas.com
-          echo '::set-output name=SELECTED_COLOR::{$?}'
+          echo '::set-output name=SELECTED_COLOR::$(echo $?)'
 
       - name: Certificate for CloudFront
         id: cert-cloud-front
