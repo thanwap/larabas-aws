@@ -33,7 +33,8 @@ jobs:
           aws acm request-certificate \
             --domain-name larabas.com \
             --idempotency-token=random_string_here \
-            --subject-alternative-names *.larabas.com
+            --subject-alternative-names *.larabas.com\
+          echo '::set-output name=SELECTED_COLOR::green'
 
       - name: Certificate for CloudFront
         id: cert-cloud-front
@@ -44,7 +45,7 @@ jobs:
             --subject-alternative-names *.larabas.com
 
       - name: Get color
-        run: echo '${{ steps.cert-default-region.outputs[0] }}'
+        run: echo '${{ steps.cert-default-region.outputs.SELECTED_COLOR }}'
 
       # - name: Deploy AWS Cloud Formation Stack
       #   env:
