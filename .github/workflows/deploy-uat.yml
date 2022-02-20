@@ -33,7 +33,7 @@ jobs:
           aws acm request-certificate \
             --domain-name larabas.com \
             --idempotency-token=random_string_here \
-            --subject-alternative-names *.larabas.com\
+            --subject-alternative-names *.larabas.com
           echo '::set-output name=SELECTED_COLOR::green'
 
       - name: Certificate for CloudFront
