@@ -34,6 +34,8 @@ jobs:
             --domain-name larabas.com \
             --idempotency-token=random_string_here \
             --subject-alternative-names *.larabas.com
+          $ret=$?
+          echo $ret
 
       - name: Certificate for CloudFront
         id: cert-cloud-front
@@ -44,7 +46,7 @@ jobs:
             --subject-alternative-names *.larabas.com
 
       - name: Get color
-        run: echo "${{ steps.cert-default-region.outputs[1] }}"
+        run: echo "${{ steps.cert-default-region.outputs[0] }}"
 
       # - name: Deploy AWS Cloud Formation Stack
       #   env:
