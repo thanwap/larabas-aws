@@ -49,8 +49,8 @@ jobs:
         #   CERT_CLOUDFRONT: ${{ steps.cert-cloud-front.outputs.CertificateArn }}
         # CLOUDFRONT_AOI: E1EAIUEAQSHPMA
         # CAPABILITIES: CAPABILITY_IAM
-        id: deploy-cloud-formation-stack
-        uses: aws-actions/aws-cloudformation-github-deploy@master
+        # id: deploy-cloud-formation-stack
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: larabas-stack
           template: _aws/uat.yaml
