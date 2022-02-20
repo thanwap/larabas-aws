@@ -44,11 +44,11 @@ jobs:
             --subject-alternative-names *.larabas.com
 
       - name: Deploy AWS Cloud Formation Stack
-        env:
-          CERT_REGION: ${{ steps.cert-default-region.outputs.CertificateArn }}
-          CERT_CLOUDFRONT: ${{ steps.cert-cloud-front.outputs.CertificateArn }}
-          # CLOUDFRONT_AOI: E1EAIUEAQSHPMA
-          # CAPABILITIES: CAPABILITY_IAM
+        # env:
+        #   CERT_REGION: ${{ steps.cert-default-region.outputs.CertificateArn }}
+        #   CERT_CLOUDFRONT: ${{ steps.cert-cloud-front.outputs.CertificateArn }}
+        # CLOUDFRONT_AOI: E1EAIUEAQSHPMA
+        # CAPABILITIES: CAPABILITY_IAM
         id: deploy-cloud-formation-stack
         uses: aws-actions/aws-cloudformation-github-deploy@master
         with:
