@@ -73,106 +73,105 @@ Resources:
         PublicSubnet2CIDR: 10.180.16.0/21
         PrivateSubnet1CIDR: 10.180.24.0/21
         PrivateSubnet2CIDR: 10.180.32.0/21
+#   Storage:
+#     Type: AWS::CloudFormation::Stack
+#     Properties:
+#       TemplateURL: https://larabas.s3.ap-southeast-1.amazonaws.com/storage.yaml
+#       Parameters:
+#         DatabaseInstanceType: !Ref DBInstanceSize
+#         DatabasePassword: !Ref DBMasterPwd
+#         DatabaseUsername: larabas
+#         DatabaseSubnets: !GetAtt VPC.Outputs.PrivateSubnets
+#         DatabaseSecurityGroup: !GetAtt VPC.Outputs.DBSecurityGroup
+#         DatabaseName: larabasdb
 
-  Storage:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: https://larabas.s3.ap-southeast-1.amazonaws.com/storage.yaml
-      Parameters:
-        DatabaseInstanceType: !Ref DBInstanceSize
-        DatabasePassword: !Ref DBMasterPwd
-        DatabaseUsername: larabas
-        DatabaseSubnets: !GetAtt VPC.Outputs.PrivateSubnets
-        DatabaseSecurityGroup: !GetAtt VPC.Outputs.DBSecurityGroup
-        DatabaseName: larabasdb
+#   Web:
+#     Type: AWS::CloudFormation::Stack
+#     Properties:
+#       TemplateURL: https://larabas.s3.ap-southeast-1.amazonaws.com/web.yaml
+#       Parameters:
+#         EnvironmentName: !Ref AWS::StackName
+#         VPC: !GetAtt VPC.Outputs.VPC
+#         PrivateSubnets: !GetAtt VPC.Outputs.PrivateSubnets
+#         PublicSubnets: !GetAtt VPC.Outputs.PublicSubnets
+#         LBCertificateArn: !Ref CertificateArn
+#         InstanceType: !Ref InstanceType
+#         ClusterSize: !Ref ClusterSize
+#         LBSecurityGroup: !GetAtt VPC.Outputs.LoadBalancerSecurityGroup
+#         ECSSecurityGroup: !GetAtt VPC.Outputs.ECSSecurityGroup
+#         S3BucketName: !GetAtt Storage.Outputs.S3BucketName
+#         CloudFrontOAI: !Ref CloudFrontOAI
+#         CFCertificateArn: !Ref CertificateArnCF
+#         CDNAlias: !Join [".", ["files", !Ref BaseUrl]]
+#         # KmsKey: !GetAtt Storage.Outputs.KmsKey
 
-  Web:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: https://larabas.s3.ap-southeast-1.amazonaws.com/web.yaml
-      Parameters:
-        EnvironmentName: !Ref AWS::StackName
-        VPC: !GetAtt VPC.Outputs.VPC
-        PrivateSubnets: !GetAtt VPC.Outputs.PrivateSubnets
-        PublicSubnets: !GetAtt VPC.Outputs.PublicSubnets
-        LBCertificateArn: !Ref CertificateArn
-        InstanceType: !Ref InstanceType
-        ClusterSize: !Ref ClusterSize
-        LBSecurityGroup: !GetAtt VPC.Outputs.LoadBalancerSecurityGroup
-        ECSSecurityGroup: !GetAtt VPC.Outputs.ECSSecurityGroup
-        S3BucketName: !GetAtt Storage.Outputs.S3BucketName
-        CloudFrontOAI: !Ref CloudFrontOAI
-        CFCertificateArn: !Ref CertificateArnCF
-        CDNAlias: !Join [".", ["files", !Ref BaseUrl]]
-        # KmsKey: !GetAtt Storage.Outputs.KmsKey
+#   WebService:
+#     Type: AWS::CloudFormation::Stack
+#     Properties:
+#       TemplateURL: https://larabas.s3.ap-southeast-1.amazonaws.com/services.yaml
+#       Parameters:
+#         VPC: !GetAtt VPC.Outputs.VPC
+#         Cluster: !GetAtt Web.Outputs.Cluster
+#         ECR: !GetAtt Web.Outputs.ECR
+#         ListenerHTTP: !GetAtt Web.Outputs.ListenerHTTP
+#         ListenerHTTPS: !GetAtt Web.Outputs.ListenerHTTPS
+#         DesiredCount: 1
+#         Path: "*"
+#         APPURL: !Join ["", ["https://", !Ref BaseUrl]]
+#         DBCONNECTION: mysql
+#         DBHOST: !GetAtt Storage.Outputs.EndpointAddress
+#         DBPORT: !GetAtt Storage.Outputs.EndpointPort
+#         DBDATABASE: !Ref AWS::StackName
+#         DBUSERNAME: larabas
+#         DBPASSWORD: !Ref DBMasterPwd
+#         MAILDRIVER: !Ref MailDriver
+#         MAILHOST: !Ref MailHost
+#         MAILPORT: !Ref MailPort
+#         MAILUSERNAME: !Ref MailUsername
+#         MAILPASSWORD: !Ref MailPassword
+#         MAILFROMADDRESS: !Join ["@", ["admin", !Ref BaseUrl]]
+#         MAILFROMNAME: !Join [" ", ["Admin from", !Ref BaseUrl]]
+#         FILESYSTEMDRIVER: s3
+#         AWSBUCKET: !GetAtt Storage.Outputs.S3BucketName
+#         QUEUEDRIVER: sqs
+#         QUEUENAME: !GetAtt Web.Outputs.QueueName
 
-  WebService:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: https://larabas.s3.ap-southeast-1.amazonaws.com/services.yaml
-      Parameters:
-        VPC: !GetAtt VPC.Outputs.VPC
-        Cluster: !GetAtt Web.Outputs.Cluster
-        ECR: !GetAtt Web.Outputs.ECR
-        ListenerHTTP: !GetAtt Web.Outputs.ListenerHTTP
-        ListenerHTTPS: !GetAtt Web.Outputs.ListenerHTTPS
-        DesiredCount: 1
-        Path: "*"
-        APPURL: !Join ["", ["https://", !Ref BaseUrl]]
-        DBCONNECTION: mysql
-        DBHOST: !GetAtt Storage.Outputs.EndpointAddress
-        DBPORT: !GetAtt Storage.Outputs.EndpointPort
-        DBDATABASE: !Ref AWS::StackName
-        DBUSERNAME: larabas
-        DBPASSWORD: !Ref DBMasterPwd
-        MAILDRIVER: !Ref MailDriver
-        MAILHOST: !Ref MailHost
-        MAILPORT: !Ref MailPort
-        MAILUSERNAME: !Ref MailUsername
-        MAILPASSWORD: !Ref MailPassword
-        MAILFROMADDRESS: !Join ["@", ["admin", !Ref BaseUrl]]
-        MAILFROMNAME: !Join [" ", ["Admin from", !Ref BaseUrl]]
-        FILESYSTEMDRIVER: s3
-        AWSBUCKET: !GetAtt Storage.Outputs.S3BucketName
-        QUEUEDRIVER: sqs
-        QUEUENAME: !GetAtt Web.Outputs.QueueName
+# Outputs:
+#   BucketName:
+#     Description: S3 Bucket Name with public read access
+#     Value: !GetAtt Storage.Outputs.S3BucketName
 
-Outputs:
-  BucketName:
-    Description: S3 Bucket Name with public read access
-    Value: !GetAtt Storage.Outputs.S3BucketName
+#   QueueName:
+#     Description: SQS queue name
+#     Value: !GetAtt Web.Outputs.QueueName
 
-  QueueName:
-    Description: SQS queue name
-    Value: !GetAtt Web.Outputs.QueueName
+#   DatabaseInstance:
+#     Description: Database instance
+#     Value:
+#       !Join [
+#         ":",
+#         [
+#           !GetAtt Storage.Outputs.EndpointAddress,
+#           !GetAtt Storage.Outputs.EndpointPort,
+#         ],
+#       ]
 
-  DatabaseInstance:
-    Description: Database instance
-    Value:
-      !Join [
-        ":",
-        [
-          !GetAtt Storage.Outputs.EndpointAddress,
-          !GetAtt Storage.Outputs.EndpointPort,
-        ],
-      ]
+#   ECR:
+#     Description: The ECR where to push your Docker images
+#     Value:
+#       !Join [
+#         ".",
+#         [
+#           !Ref "AWS::AccountId",
+#           "dkr.ecr",
+#           !Ref "AWS::Region",
+#           !Join ["/", ["amazonaws.com", !GetAtt Web.Outputs.ECR]],
+#         ],
+#       ]
 
-  ECR:
-    Description: The ECR where to push your Docker images
-    Value:
-      !Join [
-        ".",
-        [
-          !Ref "AWS::AccountId",
-          "dkr.ecr",
-          !Ref "AWS::Region",
-          !Join ["/", ["amazonaws.com", !GetAtt Web.Outputs.ECR]],
-        ],
-      ]
-
-  ServiceUrl:
-    Description: The URL endpoint for the website service
-    Value: !Join ["", [!GetAtt Web.Outputs.LoadBalancerUrl, "/"]]
-#    CloudFrontDistribution:
-#        Description: Domain name for the CloudFront distribution
-#        Value: !GetAtt CDN.Outputs.CFDistributionDomainName
+#   ServiceUrl:
+#     Description: The URL endpoint for the website service
+#     Value: !Join ["", [!GetAtt Web.Outputs.LoadBalancerUrl, "/"]]
+# #    CloudFrontDistribution:
+# #        Description: Domain name for the CloudFront distribution
+# #        Value: !GetAtt CDN.Outputs.CFDistributionDomainName
