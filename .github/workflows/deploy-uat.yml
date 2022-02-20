@@ -44,7 +44,7 @@ jobs:
             --subject-alternative-names *.larabas.com
 
       - name: Get color
-        run: echo "${{ steps.cert-default-region.outputs.CertificateArn }}"
+        run: echo "${{ steps.cert-default-region.outputs }}"
 
       - name: Deploy AWS Cloud Formation Stack
         env:
