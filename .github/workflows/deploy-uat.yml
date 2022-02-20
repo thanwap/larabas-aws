@@ -26,7 +26,7 @@ jobs:
         env:
           TEST_GITHUB_TOKEN: ${{ secrets.AWS_ACCESS_KEY_ID }}
         run: |
-          echo ${{#TEST_GITHUB_TOKEN}}
+          echo ${{ TEST_GITHUB_TOKEN }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
