@@ -35,6 +35,7 @@ jobs:
             --idempotency-token=random_string_here \
             --subject-alternative-names *.larabas.com
           echo '::set-output name=SELECTED_COLOR::$(echo $?)'
+        shell: bash
 
       - name: Certificate for CloudFront
         id: cert-cloud-front
