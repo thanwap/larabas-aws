@@ -1,78 +1,78 @@
-Description: Deploy deckcrack CloudFormation stack to AWS
+# Description: Deploy larabas CloudFormation stack to AWS
 
-Parameters:
-  CertificateArn:
-    Description: The AWS ARN of the SSL certificate to be used by the load-balancer
-    Type: String
+# Parameters:
+#   CertificateArn:
+#     Description: The AWS ARN of the SSL certificate to be used by the load-balancer
+#     Type: String
 
-  CloudFrontOAI:
-    Description: CloudFront Origin Access Identity
-    Type: String
+#   CloudFrontOAI:
+#     Description: CloudFront Origin Access Identity
+#     Type: String
 
-  CertificateArnCF:
-    Description: AWS ARN of the us-east-1 SSL certificate to be used by CloudFront
-    Type: String
+#   CertificateArnCF:
+#     Description: AWS ARN of the us-east-1 SSL certificate to be used by CloudFront
+#     Type: String
 
-  InstanceType:
-    Description: EC2 instance types to use in our cluster
-    Type: String
-    Default: t2.micro
+#   InstanceType:
+#     Description: EC2 instance types to use in our cluster
+#     Type: String
+#     Default: t2.micro
 
-  ClusterSize:
-    Description: Number of EC2 instances in our ECS cluster
-    Type: String
-    Default: 1
+#   ClusterSize:
+#     Description: Number of EC2 instances in our ECS cluster
+#     Type: String
+#     Default: 1
 
-  BaseUrl:
-    Description: Second level domain name for your application (for example larabas.com)
-    Type: String
+#   BaseUrl:
+#     Description: Second level domain name for your application (for example larabas.com)
+#     Type: String
 
-  DBMasterPwd:
-    Description: DB master password
-    Type: String
+#   DBMasterPwd:
+#     Description: DB master password
+#     Type: String
 
-  DBInstanceSize:
-    Description: DB instance size
-    Type: String
-    Default: db.t2.small
+#   DBInstanceSize:
+#     Description: DB instance size
+#     Type: String
+#     Default: db.t2.small
 
-  MailDriver:
-    Description: Mail driver (smtp or log)
-    Type: String
-    Default: log
+#   MailDriver:
+#     Description: Mail driver (smtp or log)
+#     Type: String
+#     Default: log
 
-  MailHost:
-    Description: SMTP host
-    Type: String
-    Default: ""
+#   MailHost:
+#     Description: SMTP host
+#     Type: String
+#     Default: ""
 
-  MailPort:
-    Description: SMTP port
-    Type: String
-    Default: ""
+#   MailPort:
+#     Description: SMTP port
+#     Type: String
+#     Default: ""
 
-  MailUsername:
-    Description: SMTP password
-    Type: String
-    Default: ""
+#   MailUsername:
+#     Description: SMTP password
+#     Type: String
+#     Default: ""
 
-  MailPassword:
-    Description: SMTP password
-    Type: String
-    Default: ""
+#   MailPassword:
+#     Description: SMTP password
+#     Type: String
+#     Default: ""
 
-Resources:
-  VPC:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: https://larabas.s3.ap-southeast-1.amazonaws.com/vpc.yaml
-      Parameters:
-        EnvironmentName: !Ref AWS::StackName
-        VpcCIDR: 10.180.0.0/16
-        PublicSubnet1CIDR: 10.180.8.0/21
-        PublicSubnet2CIDR: 10.180.16.0/21
-        PrivateSubnet1CIDR: 10.180.24.0/21
-        PrivateSubnet2CIDR: 10.180.32.0/21
+# Resources:
+#   VPC:
+#     Type: AWS::CloudFormation::Stack
+#     Properties:
+#       TemplateURL: https://larabas.s3.ap-southeast-1.amazonaws.com/vpc.yaml
+#       Parameters:
+#         EnvironmentName: !Ref AWS::StackName
+#         VpcCIDR: 10.180.0.0/16
+#         PublicSubnet1CIDR: 10.180.8.0/21
+#         PublicSubnet2CIDR: 10.180.16.0/21
+#         PrivateSubnet1CIDR: 10.180.24.0/21
+#         PrivateSubnet2CIDR: 10.180.32.0/21
 #   Storage:
 #     Type: AWS::CloudFormation::Stack
 #     Properties:
