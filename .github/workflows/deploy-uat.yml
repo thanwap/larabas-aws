@@ -26,37 +26,37 @@ jobs:
           aws-region: ap-southeast-1
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Certificate for default region
-        id: cert-default-region
-        run: |
-          aws acm request-certificate \
-            --domain-name larabas.com \
-            --idempotency-token=random_string_here \
-            --subject-alternative-names *.larabas.com
+      # - name: Certificate for default region
+      #   id: cert-default-region
+      #   run: |
+      #     aws acm request-certificate \
+      #       --domain-name larabas.com \
+      #       --idempotency-token=random_string_here \
+      #       --subject-alternative-names *.larabas.com
 
-      - name: Certificate for CloudFront
-        id: cert-cloud-front
-        run: |
-          aws --region us-east-1 acm request-certificate \
-            --domain-name larabas.com \
-            --idempotency-token=random_string_here \
-            --subject-alternative-names *.larabas.com
+      # - name: Certificate for CloudFront
+      #   id: cert-cloud-front
+      #   run: |
+      #     aws --region us-east-1 acm request-certificate \
+      #       --domain-name larabas.com \
+      #       --idempotency-token=random_string_here \
+      #       --subject-alternative-names *.larabas.com
 
-      - name: Deploy AWS Cloud Formation Stack
-        env:
-          CERT_REGION: ${{ steps.cert-default-region.outputs.CertificateArn }}
-          CERT_CLOUDFRONT: ${{ steps.cert-cloud-front.outputs.CertificateArn }}
-          CLOUDFRONT_AOI: E1EAIUEAQSHPMA
-          CAPABILITIES: CAPABILITY_IAM
-        id: deploy-cloud-formation-stack
-        uses: aws-actions/aws-cloudformation-github-deploy@master
-        with:
-          name: larabas-stack
-          template: _aws/uat.yaml
-          parameter-overrides: >-
-            DBMasterPwd=${{ secrets.DB_PASSWORD }},
-            CertificateArn=$CERT_REGION,
-            CertificateArnCF=$CERT_CLOUDFRONT,
-            CertificateArnCF=$CERT_CLOUDFRONT,
-            CloudFrontOAI=$CLOUDFRONT_AOI,
-            BaseUrl=larabas.com
+      # - name: Deploy AWS Cloud Formation Stack
+      #   env:
+      #     CERT_REGION: ${{ steps.cert-default-region.outputs.CertificateArn }}
+      #     CERT_CLOUDFRONT: ${{ steps.cert-cloud-front.outputs.CertificateArn }}
+      #     CLOUDFRONT_AOI: E1EAIUEAQSHPMA
+      #     CAPABILITIES: CAPABILITY_IAM
+      #   id: deploy-cloud-formation-stack
+      #   uses: aws-actions/aws-cloudformation-github-deploy@master
+      #   with:
+      #     name: larabas-stack
+      #     template: _aws/uat.yaml
+      #     parameter-overrides: >-
+      #       DBMasterPwd=${{ secrets.DB_PASSWORD }},
+      #       CertificateArn=$CERT_REGION,
+      #       CertificateArnCF=$CERT_CLOUDFRONT,
+      #       CertificateArnCF=$CERT_CLOUDFRONT,
+      #       CloudFrontOAI=$CLOUDFRONT_AOI,
+      #       BaseUrl=larabas.com
