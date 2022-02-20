@@ -30,10 +30,11 @@ jobs:
       - name: Certificate for default region
         id: cert-default-region
         run: |
-          echo '::set-output name=SELECTED_COLOR::aws acm request-certificate \
+          $output=(aws acm request-certificate \
             --domain-name larabas.com \
             --idempotency-token=random_string_here \
-            --subject-alternative-names *.larabas.com'
+            --subject-alternative-names *.larabas.com)
+          echo '::set-output name=SELECTED_COLOR::$output'
 
       - name: Certificate for CloudFront
         id: cert-cloud-front
