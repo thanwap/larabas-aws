@@ -35,13 +35,13 @@ jobs:
             --idempotency-token=random_string_here \
             --subject-alternative-names *.larabas.com
 
-      # - name: Certificate for CloudFront
-      #   id: cert-cloud-front
-      #   run: |
-      #     aws --region us-east-1 acm request-certificate \
-      #       --domain-name larabas.com \
-      #       --idempotency-token=random_string_here \
-      #       --subject-alternative-names *.larabas.com
+      - name: Certificate for CloudFront
+        id: cert-cloud-front
+        run: |
+          aws --region us-east-1 acm request-certificate \
+            --domain-name larabas.com \
+            --idempotency-token=random_string_here \
+            --subject-alternative-names *.larabas.com
 
       # - name: Deploy AWS Cloud Formation Stack
       #   env:
