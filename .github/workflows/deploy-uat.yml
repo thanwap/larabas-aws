@@ -33,7 +33,7 @@ jobs:
           aws acm request-certificate \
             --domain-name larabas.com \
             --idempotency-token=random_string_here \
-            --subject-alternative-names file.larabas.com
+            --subject-alternative-names *.larabas.com
 
       - name: Certificate for CloudFront
         id: cert-cloud-front
@@ -41,7 +41,7 @@ jobs:
           aws --region us-east-1 acm request-certificate \
             --domain-name larabas.com \
             --idempotency-token=random_string_here \
-            --subject-alternative-names file.larabas.com
+            --subject-alternative-names *.larabas.com
 
       - name: Deploy AWS Cloud Formation Stack
         env:
@@ -57,7 +57,6 @@ jobs:
           parameter-overrides: >-
             DBMasterPwd=${{ secrets.DB_PASSWORD }},
             CertificateArn=$CERT_REGION,
-            CertificateArnCF=$CERT_CLOUDFRONT,
             CertificateArnCF=$CERT_CLOUDFRONT,
             CloudFrontOAI=$CLOUDFRONT_AOI,
             BaseUrl=larabas.com
