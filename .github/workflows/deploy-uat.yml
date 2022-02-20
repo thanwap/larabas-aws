@@ -20,9 +20,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Check secret
-        run: echo '${{secrets.AWS_ACCESS_KEY_ID}}'
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -30,13 +27,13 @@ jobs:
           aws-region: ap-southeast-1
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      # - name: Certificate for default region
-      #   id: cert-default-region
-      #   run: |
-      #     aws acm request-certificate \
-      #       --domain-name larabas.com \
-      #       --idempotency-token=random_string_here \
-      #       --subject-alternative-names *.larabas.com
+      - name: Certificate for default region
+        id: cert-default-region
+        run: |
+          aws acm request-certificate \
+            --domain-name larabas.com \
+            --idempotency-token=random_string_here \
+            --subject-alternative-names *.larabas.com
 
       # - name: Certificate for CloudFront
       #   id: cert-cloud-front
